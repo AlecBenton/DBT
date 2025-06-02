@@ -1,20 +1,17 @@
-{% set target_table = 'public.table2' %}
-{% set source_stream = 'public.table1_stream' %}
+{% set source_table = source('public', 'table1') %}
+{% set source_stream = source('public', 'table1_stream') %}
 
-MERGE INTO {{ target_table }} AS target
-USING (
-    SELECT * FROM {{ source_stream }}
-) AS source
-ON target.id = source.id  -- Use your actual primary key column
+{% if is_incremental() %}
 
-WHEN MATCHED AND metadata$action = 'DELETE' THEN
-    DELETE
+    -- Incremental run: get only INSERT and UPDATE actions from stream
+    SELECT *
+    FROM {{ source_stream }}
+    WHERE metadata$action IN ('INSERT', 'UPDATE')
 
-WHEN MATCHED AND metadata$action = 'UPDATE' THEN
-    UPDATE SET
-        name = source.name,
-        UPDATED_AT = source.UPDATED_AT  -- List all columns that can be updated
+{% else %}
 
-WHEN NOT MATCHED THEN
-    INSERT (id, name, UPDATED_AT)  -- List all columns
-    VALUES (source.id, source.name, source.UPDATED_AT);
+    -- Full-refresh: load entire base table
+    SELECT *
+    FROM {{ source_table }}
+
+{% endif %}
