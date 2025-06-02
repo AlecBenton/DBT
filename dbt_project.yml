@@ -37,8 +37,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   my_new_project:
-    apply_changes:
-      materialized: incremental
-      unique_key: id  # Replace 'id' with your primary key column
-      post-hook:
-        - "DELETE FROM {{ this }} WHERE id IN (SELECT id FROM {{ source('public', 'table1_stream') }} WHERE metadata$action = 'DELETE')"
+    # Applies to all files under models/example/
+    example:
+      +materialized: table
