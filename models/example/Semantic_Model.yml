@@ -12,3 +12,28 @@ semantic_models:
         type: time
         type_params:
           time_granularity: day
+    measures:
+      - name: total_rows
+        description: "Total rows in table1"
+        agg: count
+      - name: distinct_names
+        description: "Distinct count of name"
+        agg: count_distinct
+        expr: name
+
+metrics:
+  - name: total_rows
+    label: "Total Rows"
+    description: "Total number of rows in table1"
+    type: simple
+    type_params:
+      measure:
+        name: total_rows
+
+  - name: distinct_names
+    label: "Distinct Names"
+    description: "Total unique names"
+    type: simple
+    type_params:
+      measure:
+        name: distinct_names
