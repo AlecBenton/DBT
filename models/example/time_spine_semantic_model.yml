@@ -1,0 +1,9 @@
+semantic_models:
+  - name: time_spine
+    model: ref('time_spine')
+    description: "Time spine model required by the dbt Semantic Layer"
+    dimensions:
+      - name: date_day
+        type: time
+        type_params:
+          time_granularity: day
