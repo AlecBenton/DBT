@@ -1,7 +1,20 @@
-with calendar as (
-    select
-        dateadd(day, seq4(), date'2020-01-01') as date_day
-    from table(generator(rowcount => 10000))  -- generates ~27 years of dates
-)
+models: 
+# Hourly time spine
+  - name: time_spine_hourly 
+    description: my favorite time spine
+    time_spine:
+      standard_granularity_column: date_hour # column for the standard grain of your table, must be date time type.
+      custom_granularities:
+        - name: fiscal_year
+          column_name: fiscal_year_column
+    columns:
+      - name: date_hour
+        granularity: hour # set granularity at column-level for standard_granularity_column
 
-select * from calendar
+# Daily time spine
+  - name: time_spine_daily
+    time_spine:
+      standard_granularity_column: date_day # column for the standard grain of your table
+    columns:
+      - name: date_day
+        granularity: day # set granularity at column-level for standard_granularity_column
