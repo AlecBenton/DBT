@@ -1,0 +1,14 @@
+semantic_models:
+  - name: table1
+    model: ref('table1')
+    description: "Semantic model for table1 in POC.public"
+    entities:
+      - name: id
+        type: primary
+    dimensions:
+      - name: name
+        type: categorical
+      - name: updated_at
+        type: time
+        type_params:
+          time_granularity: day
