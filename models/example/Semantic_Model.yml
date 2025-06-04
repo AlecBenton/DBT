@@ -16,10 +16,14 @@ semantic_models:
       - name: total_rows
         description: "Total rows in table1"
         agg: count
+        expr: 1
+        agg_time_dimension: updated_at
+
       - name: distinct_names
         description: "Distinct count of name"
         agg: count_distinct
         expr: name
+        agg_time_dimension: updated_at
 
 metrics:
   - name: total_rows
