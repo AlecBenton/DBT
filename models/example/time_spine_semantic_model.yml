@@ -1,14 +1,14 @@
 semantic_models:
   - name: metricflow_time_spine
     model: ref('metricflow_time_spine')
-    description: A time spine with one row per day, ranging from 2020-01-01 to 2039-12-31.
+    description: A time spine with one row per day.
     defaults:
-      agg_time_dimension: date_day
+      agg_time_dimension: date_day_dim
     entities:
       - name: date_day
         type: primary
     dimensions:
-      - name: date_day
+      - name: date_day_dim
         type: time
         type_params:
           time_granularity: day
